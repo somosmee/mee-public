@@ -1,0 +1,188 @@
+extend type Query {
+  getIfoodCategories: IfoodCategories!
+  ifoodPriceAnalysis: IfoodPriceAnalysis
+}
+
+extend type Mutation {
+  updateIfoodCredentials(input: UpdateIfoodCredentialsInput!): Company!
+  toggleOpenStatus(input: ToggleOpenStatusInput!): Company!
+
+  createIfoodCategory(input: CreateIfoodCategoryInput!): IfoodCategory!
+  updateIfoodCategory(input: UpdateIfoodCategoryInput!): IfoodCategory!
+  deleteIfoodCategory(input: DeleteIfoodCategoryInput!): IfoodCategory!
+
+  addIfoodItem(input: AddIfoodItemInput!): IfoodItem!
+  unlinkIfoodItem(input: UnlinkIfoodItemInput!): IfoodItem!
+  updateIfoodItemAvailability(input: UpdateIfoodItemAvailabilityInput!): IfoodItem!
+
+  createIfoodModifier(input: CreateIfoodModifierInput!): IfoodItem!
+  updateIfoodModifier(input: UpdateIfoodModifierInput!): IfoodItem!
+  deleteIfoodModifier(input: DeleteIfoodModifierInput!): IfoodItem!
+
+  confirmIfoodOrder(input: ConfirmIfoodOrderInput!): Order!
+  dispatchIfoodOrder(input: DispatchIfoodOrderInput!): Order!
+  cancellationIfoodOrder(input: CancellationIfoodOrderInput!): Order!
+}
+
+# Inputs
+
+input UpdateIfoodCredentialsInput {
+  merchant: String!
+  username: String!
+  password: String!
+}
+
+input ToggleOpenStatusInput {
+  open: Boolean!
+}
+
+input CreateIfoodCategoryInput {
+  name: String!
+  description: String
+  position: Float
+}
+
+input UpdateIfoodCategoryInput {
+  id: ID!
+  externalCode: ID!
+  available: Boolean!
+  name: String!
+  description: String!
+  position: Float!
+}
+
+input DeleteIfoodCategoryInput {
+  id: ID!
+  externalCode: ID!
+}
+
+input AddIfoodItemInput {
+  category: ID!
+  categoryExternalCode: ID!
+  product: ID!
+  available: Boolean
+  position: Float
+}
+
+input UnlinkIfoodItemInput {
+  category: ID!
+  categoryExternalCode: ID!
+  externalCode: String!
+}
+
+input UpdateIfoodItemAvailabilityInput {
+  category: ID!
+  item: ID
+  externalCode: String!
+  available: Boolean!
+}
+
+input CreateIfoodModifierInput {
+  category: ID!
+  categoryExternalCode: ID!
+  name: String!
+  gtin: String!
+  modifiers: [ID!]!
+  minimum: Float
+  maximum: Float!
+  position: Float
+}
+
+input UpdateIfoodModifierInput {
+  externalCode: ID!
+  category: ID!
+  item: ID!
+  name: String!
+  minimum: Float!
+  maximum: Float!
+  position: Float!
+  available: Boolean!
+}
+
+input DeleteIfoodModifierInput {
+  externalCode: ID!
+  category: ID!
+  item: ID!
+  name: String!
+  minimum: Float!
+  maximum: Float!
+  position: Float!
+}
+
+input ConfirmIfoodOrderInput {
+  id: ID!
+}
+
+input DispatchIfoodOrderInput {
+  id: ID!
+}
+
+input CancellationIfoodOrderInput {
+  id: ID!
+  code: String!
+  description: String
+}
+
+# Types
+
+type IfoodPriceAnalysis {
+  general: GeneralPriceAnalysis
+  alerts: [IfoodPriceAlert]
+}
+
+type GeneralPriceAnalysis {
+  median: Float
+  marketMedian: Float
+}
+
+type IfoodPriceAlert {
+  product: ID!
+  name: String!
+  percent: Float!
+}
+
+type IfoodCategories {
+  categories: [IfoodCategory!]!
+}
+
+type IfoodCategory {
+  id: ID!
+  externalCode: ID!
+  name: String!
+  description: String!
+  available: Boolean!
+  position: Float!
+  items: [IfoodItem!]!
+}
+
+type IfoodItem {
+  id: ID!
+  externalCode: ID!
+  name: String!
+  description: String!
+  price: Float!
+  available: Boolean!
+  position: Float!
+  modifiers: [IfoodModifier!]!
+}
+
+type IfoodModifier {
+  id: ID!
+  externalCode: ID!
+  name: String!
+  minimum: Float!
+  maximum: Float!
+  available: Boolean!
+  position: Float!
+  options: [IfoodOption!]!
+}
+
+type IfoodOption {
+  id: ID!
+  externalCode: ID!
+  name: String!
+  description: String
+  price: Float!
+  available: Boolean!
+  position: Float!
+}

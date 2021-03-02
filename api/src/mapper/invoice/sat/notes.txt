@@ -1,0 +1,70 @@
+- ICMS
+  - [field] Regime de tributação ICMS - Required
+    - Regime Normal / Grupo de Tributação do ICMS= 00, 20, 90
+      - [field] Tipo de tributação (dropbox) - Required
+        - 00 – Tributada integralmente
+        - 20 - Com redução de base de cálculo
+        - 90 - Outros
+    - Regime Normal / Grupo de Tributação do ICMS = 40, 41, 60
+      - [field] Tipo de tributação (dropbox) - Required
+        - 40 - Isenta
+        - 41 - Não tributada
+        - 60 - ICMS cobrado anteriormente por substituição tributária
+    - Simples Nacional e CSOSN=102, 300, 400, 500
+      - [field] Tipo de tributação (dropbox) - Required
+        - 102 - Tributada pelo Simples Nacional sem permissão de crédito.
+        - 300 – Imune
+        - 400 – Não tributada
+        - 500 – ICMS cobrado anteriormente por substituição tributária (substituído) ou por antecipação
+    - Simples Nacional e CSOSN=900
+      - [field] Tipo de tributação (dropbox) - Required
+        - 900 - Outros
+      - [field] Origem (dropbox) - Required
+        - 0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8;
+        - 1 - Estrangeira - Importação direta, exceto a indicada no código 6;
+        - 2 - Estrangeira - Adquirida no mercado interno, exceto a indicada no código 7;
+        - 3 - Nacional, mercadoria ou bem com Conteúdo de Importação superior a 40% (quarenta por cento) e inferior ou igual a 70% (setenta por cento);
+        - 4 - Nacional, cuja produção tenha sido feita em conformidade com os processos produtivos básicos de que tratam as legislações citadas nos Ajustes;
+        - 5 - Nacional, mercadoria ou bem com Conteúdo de Importação inferior ou igual a 40%;
+        - 6 - Estrangeira - Importação direta, sem similar nacional, constante em lista da CAMEX;
+        - 7 - Estrangeira - Adquirida no mercado interno, sem similar nacional, constante em lista da CAMEX;
+        - 8 – Nacional, mercadoria ou bem com Conteúdo de Importação superior a 70% (setenta por cento).
+      - [field] Alíquota efetiva do imposto (float) - Required
+
+- PIS
+  - Grupo PIS
+    - tributado pela alíquota
+    - tributado por Qtde
+    - não tributado
+    - para contribuinte do SIMPLES NACIONAL
+    - Outras Operações
+      - fields dependem de cada valor selecionado
+
+- PISST
+  - Valor da Base de Cálculo do PIS - Optional
+  - Alíquota do PIS (em percentual) - Optional
+  - Quantidade Vendida - Optional
+  - Alíquota do PIS (em reais) - Optional
+
+
+- COFINS
+  - tributado pela alíquota
+  - tributado por Qtde
+  - não tributado
+  - contribuinte do SIMPLES
+  - Outras Operações
+
+- COFINSST
+  - Valor da Base de Cálculo da COFINS - Optional
+  - Alíquota da COFINS (em percentual) - Optional
+  - Quantidade Vendida - Optional
+  - Alíquota da COFINS (em reais)
+
+- ISSQN
+  - Valor das deduções para ISSQN - Required
+  - Alíquota do ISSQN - Required
+  - Código município de ocorrência do fato gerador do ISSQN - Optional
+  - Item da lista de Serviços - Optional
+  - Codigo de tributação pelo ISSQN do município - Optional
+  - Natureza da Operação de ISSQN - Optional
+  - Indicador de Incentivo Fiscal do ISSQN- Required

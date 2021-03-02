@@ -1,0 +1,48 @@
+extend type Query {
+  shopfront: Shopfront!
+  shopfronts(id: ID!): Shopfront!
+}
+
+extend type Mutation {
+  addProductShopfront(input: AddProductShopfrontInput!): Shopfront!
+  deleteProductShopfront(input: DeleteProductShopfrontInput!): Shopfront!
+}
+
+type Shopfront {
+  _id: ID!
+  merchant: String!
+  picture: String
+  banner: String
+  name: String!
+  address: ShopfrontAddress
+  products: [ShopfrontProduct!]
+  delivery: [SettingsDelivery!]
+}
+
+type ShopfrontAddress implements Address {
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+  lat: Float
+  lng: Float
+}
+
+type ShopfrontProduct {
+  _id: ID!
+  name: String!
+  description: String
+  image: String
+  price: Float!
+}
+
+input AddProductShopfrontInput {
+  product: ID!
+}
+
+input DeleteProductShopfrontInput {
+  userProduct: ID!
+}

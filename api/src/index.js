@@ -1,0 +1,5 @@
+require('@babel/polyfill')
+require('@babel/register')
+require('src/sentry')
+if (process.env.NODE_ENV !== 'test') require('src/cronjobs')
+require('src/server')

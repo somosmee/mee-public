@@ -1,0 +1,79 @@
+extend type Query {
+  inventoryMovements(input: InventoryMovementsInput!): InventoryMovements!
+}
+
+extend type Mutation {
+  increaseInventory(input: IncreaseInventoryInput!): Inventory!
+  decreaseInventory(input: DecreaseInventoryInput!): Inventory!
+  inventoryAdjustment(input: InventoryAdjustmentInput!): Inventory!
+}
+
+input InventoryMovementsInput {
+  product: ID!
+  pagination: PaginationInput
+}
+
+input IncreaseInventoryInput {
+  product: ID!
+  quantity: Float!
+  reason: IncreaseInventoryReasonInput!
+}
+
+input DecreaseInventoryInput {
+  product: ID!
+  quantity: Float!
+  reason: DecreaseInventoryReasonInput!
+}
+
+input InventoryAdjustmentInput {
+  product: ID!
+  balance: Float!
+  reason: InventoryAdjustmentReasonInput!
+}
+
+type InventoryMovements {
+  movements: [Inventory!]!
+  pagination: Pagination!
+}
+
+type Inventory {
+  _id: ID!
+  quantity: Float!
+  reason: Reason!
+  balance: Float!
+  product: Product!
+  purchase: Purchase
+  company: Company!
+  createdBy: User!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum IncreaseInventoryReasonInput {
+  acquisition
+  return
+  manual_adjustment
+}
+
+enum DecreaseInventoryReasonInput {
+  expired
+  damaged
+  manual_adjustment
+}
+
+enum InventoryAdjustmentReasonInput {
+  return
+  expired
+  damaged
+  manual_adjustment
+}
+
+enum Reason {
+  acquisition
+  sale
+  return
+  expired
+  damaged
+  manual_adjustment
+}

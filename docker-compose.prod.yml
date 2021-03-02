@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  client:
+    image: client
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    volumes:
+      - /usr/src/app/node_modules
+      - /usr/src/app/build
+    env_file:
+      - ./client/env.production.local
+    ports:
+      - 3000:8080
+    depends_on:
+      - api
+  api:
+    image: api
+    container_name: api
+    restart: always
+    build:
+      context: ./api
+      dockerfile: Dockerfile.prod
+    volumes:
+      - /usr/src/app/node_modules
+      - /usr/src/app/dist
+      - ./api:/usr/src/app
+    env_file:
+      - ./api/production.local.env
+    ports:
+      - 4000:4000
+    depends_on:
+      - elasticsearch
+  elasticsearch:
+    image: elasticsearch:6.4.3
+    container_name: elasticsearch
+    ports:
+      - 9200:9200

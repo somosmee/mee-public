@@ -1,0 +1,27 @@
+env:
+  commonjs: true,
+  es6: true
+  node: true
+extends:
+  - standard
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parser: babel-eslint
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+plugins:
+  - prettier
+  - eslint-plugin-import-helpers
+rules:
+  indent: ['error', 2, { 'SwitchCase': 1 }]
+  semi: ['error', 'never']
+  quotes: ['error', 'single']
+  no-underscore-dangle: ['off']
+  import/prefer-default-export: ['off']
+  import/named: ['off']
+  import/no-named-as-default: ['off']
+  import/no-named-as-default-member: ['off']
+  space-before-function-paren: ['off']
+  import-helpers/order-imports: ['warn', { 'newlinesBetween': 'always', groups: ['module', '/^src/google/', '/^src/ifood/', '/^src/loggi/', '/^src/SAT/', '/^src/mongoose/', '/^src/server/', '/^src/apolloServer/', '/^src/cronjobs/', '/^src/mapper/', '/^src/scrapper/', '/^src/models/', '/^src/graphql/', '/^src/routes/', '/^src/services/', '/^src/test/', '/^src/utils/', ['parent', 'sibling', 'index']], alphabetize: { order: 'asc', ignoreCase: true } }]

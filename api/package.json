@@ -1,0 +1,105 @@
+{
+  "name": "api",
+  "version": "v2.6.3",
+  "private": true,
+  "main": "./src/index.js",
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn test && cd ../client && yarn cypress:run"
+    }
+  },
+  "scripts": {
+    "migrate:up": "env-cmd -f ./development.env npx migrate-mongo up",
+    "migrate:down": "env-cmd -f ./development.env npx migrate-mongo down",
+    "start": "npx migrate-mongo up && node src/index.js",
+    "dev": "env-cmd -f ./development.env nodemon ./src/index.js",
+    "test": "env-cmd -f ./test.env npx ava --serial --verbose --timeout=2m",
+    "seed": "./seed.sh",
+    "seed:update": "./seedUpdate.sh",
+    "mongo:reset": "./resetDatabase.sh"
+  },
+  "dependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/register": "^7.7.4",
+    "@google-cloud/storage": "^5.3.0",
+    "@hapi/joi": "^16.1.8",
+    "@mailchimp/mailchimp_marketing": "^3.0.19",
+    "@sentry/node": "^5.10.1",
+    "adm-zip": "^0.5.2",
+    "apollo-errors": "^1.9.0",
+    "apollo-resolvers": "^1.4.2",
+    "apollo-server-express": "^2.9.13",
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
+    "cpf-cnpj-validator": "^1.0.3",
+    "env-cmd": "^10.0.1",
+    "express": "^4.17.1",
+    "fast-xml-parser": "^3.15.0",
+    "form-data": "^3.0.0",
+    "graphql": "^14.5.8",
+    "gtin": "^0.3.0",
+    "jsonschema": "^1.2.10",
+    "jsonwebtoken": "8.5.1",
+    "lodash.groupby": "^4.6.0",
+    "mandrill-api": "^1.0.45",
+    "mathjs": "^7.1.0",
+    "migrate-mongo": "^7.0.1",
+    "moment": "^2.24.0",
+    "mongoosastic": "4.5.1",
+    "mongoose": "5.10.07",
+    "mongoose-delete": "^0.5.1",
+    "mustache": "^4.0.0",
+    "natural": "^0.6.3",
+    "node-cron": "^2.0.3",
+    "nodemailer": "^6.4.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "sharp": "^0.26.1",
+    "stripe": "^8.16.0",
+    "uuid": "^8.3.0",
+    "validator": "^12.1.0",
+    "winston": "^3.2.1",
+    "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "@ava/babel": "^1.0.1",
+    "apollo-server-integration-testing": "^2.3.0",
+    "ava": "^3.12.1",
+    "babel-eslint": "^10.0.3",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-import-helpers": "^1.1.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.3",
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.1",
+    "prettier": "^1.19.1",
+    "sinon": "^8.1.0",
+    "standard": "^14.3.1"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src",
+      "migrations"
+    ],
+    "ext": "js,graphql",
+    "ignore": [
+      "**/specs/**",
+      "*.spec.js"
+    ]
+  },
+  "jest": {
+    "globalSetup": "./tests/jest/globalSetup.js",
+    "globalTeardown": "./tests/jest/globalTeardown.js"
+  },
+  "engines": {
+    "node": "^14.15.2",
+    "yarn": "^1.22.4"
+  }
+}

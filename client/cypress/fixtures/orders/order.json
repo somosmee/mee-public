@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "name": "farinha de mandioca 1kg",
+      "quantity": 1,
+      "price": 8,
+      "subtotal": 8,
+      "note": "sem sacola plastica"
+    },
+    {
+      "name": "refrigerante coca cola 1,5l pet",
+      "quantity": 1,
+      "price": 5.69,
+      "subtotal": 5.69
+    }
+  ],
+  "customer": {
+    "mobile": "37971734939",
+    "firstName": "Mylie",
+    "lastName": "Moss",
+    "address": {
+      "postalCode": "73368-782",
+      "street": "Quadra 7J Conjunto B",
+      "number": "100",
+      "complement": "Casa A",
+      "district": "Arapoanga (Planaltina)",
+      "city": "Brasília",
+      "state": "DF"
+    }
+  },
+  "delivery": {
+    "fee": 3
+  },
+  "payment": {
+    "method": "credit"
+  }
+}

@@ -1,0 +1,129 @@
+extend type Query {
+  customer(input: CustomerInput!): Customer!
+  customers(input: CustomersInput): Customers!
+  searchCustomers(text: String): [Customer!]!
+}
+
+extend type Mutation {
+  createCustomer(input: CreateCustomerInput!): Customer!
+  updateCustomer(input: UpdateCustomerInput!): Customer!
+  deleteCustomer(input: DeleteCustomerInput!): Customer!
+  createCustomerAddress(input: CreateCustomerAddressInput!): Customer!
+  updateCustomerAddress(input: UpdateCustomerAddressInput!): Customer!
+  deleteCustomerAddress(input: DeleteCustomerAddressInput!): Customer!
+}
+
+input CustomerInput {
+  customer: ID!
+}
+
+input CustomersInput {
+  pagination: PaginationInput
+}
+
+input CustomerBusinessInput {
+  nationalId: String
+  name: String
+}
+
+input CreateCustomerInput {
+  email: String
+  nationalId: String
+  firstName: String!
+  lastName: String!
+  birthday: String
+  mobile: String!
+  receiveOffers: Boolean
+  business: CustomerBusinessInput
+  addresses: [AddressInput!]
+}
+
+input UpdateCustomerInput {
+  customer: ID!
+  email: String
+  nationalId: String
+  firstName: String
+  lastName: String
+  birthday: String
+  mobile: String
+  receiveOffers: Boolean
+  business: CustomerBusinessInput
+}
+
+input DeleteCustomerInput {
+  customer: ID!
+}
+
+input CreateCustomerAddressInput {
+  customer: ID!
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+  lat: Float
+  lng: Float
+}
+
+input UpdateCustomerAddressInput {
+  customer: ID!
+  address: ID!
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+  lat: Float
+  lng: Float
+}
+
+input DeleteCustomerAddressInput {
+  customer: ID!
+  address: ID!
+}
+
+type Customers {
+  customers: [Customer!]!
+  pagination: Pagination!
+}
+
+type CustomerAddress implements Address {
+  _id: ID
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+  lat: Float
+  lng: Float
+}
+
+type CustomerBusiness {
+  nationalId: String
+  name: String
+}
+
+type Customer {
+  _id: ID!
+  name: String
+  firstName: String
+  lastName: String
+  nationalId: String
+  birthday: DateTime
+  email: String
+  mobile: String
+  receiveOffers: Boolean
+  company: Company!
+  createdBy: User!
+  addresses: [CustomerAddress!]
+  business: CustomerBusiness
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

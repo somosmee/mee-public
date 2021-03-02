@@ -1,0 +1,11 @@
+{"_id":{"$oid":"5d2b28096c0fb400549d93ae"},"fileName":"20190703174734-change-products-to-usersProducts.js","appliedAt":{"$date":"2019-07-14T13:03:05.270Z"}}
+{"_id":{"$oid":"5d2b28096c0fb400549d93af"},"fileName":"20190709200402-calculate-total-and-totalPaid-orders.js","appliedAt":{"$date":"2019-07-14T13:03:05.528Z"}}
+{"_id":{"$oid":"5d2b28096c0fb400549d93b0"},"fileName":"20190711163634-add-roles-permissions-to-users.js","appliedAt":{"$date":"2019-07-14T13:03:05.608Z"}}
+{"_id":{"$oid":"5deb97e92d1c540136330899"},"fileName":"20190730102506-add-completion-search-input-field-products.js","appliedAt":{"$date":"2019-12-07T12:15:37.096Z"}}
+{"_id":{"$oid":"5deb97e92d1c54013633089a"},"fileName":"20190807224454-move-es-completion-index-to-users-products.js","appliedAt":{"$date":"2019-12-07T12:15:37.646Z"}}
+{"_id":{"$oid":"5deb97e92d1c54013633089b"},"fileName":"20190813030502-normalize-orders-items-fields.js","appliedAt":{"$date":"2019-12-07T12:15:37.664Z"}}
+{"_id":{"$oid":"5deb97e92d1c54013633089c"},"fileName":"20190813122019-default-null-measurement-to-unit.js","appliedAt":{"$date":"2019-12-07T12:15:37.683Z"}}
+{"_id":{"$oid":"5deb97ea2d1c54013633089d"},"fileName":"20190815010631-remove-stop-words-from-completion-index.js","appliedAt":{"$date":"2019-12-07T12:15:38.443Z"}}
+{"_id":{"$oid":"5deb97ea2d1c54013633089e"},"fileName":"20190827190824-change-all-product-name-to-lower-case.js","appliedAt":{"$date":"2019-12-07T12:15:38.780Z"}}
+{"_id":{"$oid":"5deb97ea2d1c54013633089f"},"fileName":"20191015120733-add-customer-role-permission.js","appliedAt":{"$date":"2019-12-07T12:15:38.813Z"}}
+{"_id":{"$oid":"5deb97ea2d1c5401363308a0"},"fileName":"20191204232647-add-billing-permission.js","appliedAt":{"$date":"2019-12-07T12:15:38.846Z"}}

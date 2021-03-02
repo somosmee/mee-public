@@ -1,0 +1,27 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - '$_DOCKERFILE_NAME'
+      - '--build-arg'
+      - 'NODE_IMAGE_TAG=$_NODE_IMAGE_TAG'
+      - '--build-arg'
+      - 'NGINX_IMAGE_TAG=$_NGINX_IMAGE_TAG'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/client'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/client:$REVISION_ID'
+      - '.'
+    dir: 'client/'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'image', 'deployments/$_DEPLOYMENT_NAME', '$_CONTAINER=gcr.io/$PROJECT_ID/client:$REVISION_ID']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=$_CLOUDSDK_COMPUTE_ZONE'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=$_CLOUDSDK_CONTAINER_CLUSTER'
+tags:
+  - '$_CLOUDBUILD_TAG_ENV'
+images:
+  - 'gcr.io/$PROJECT_ID/client'
+  - 'gcr.io/$PROJECT_ID/client:$REVISION_ID'
+timeout: '20m'

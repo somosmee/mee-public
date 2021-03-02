@@ -1,0 +1,76 @@
+extend type Query {
+  registerOperations(input: RegisterOperationsInput): RegisterOperations!
+}
+
+extend type Mutation {
+  createRegisterOperation(input: CreateRegisterOperationInput!): RegisterOperation!
+  deleteRegisterOperation(input: DeleteRegisterOperationInput!): RegisterOperation!
+}
+
+input DeleteRegisterOperationInput {
+  id: String!
+}
+
+input RegisterOperationsInput {
+  first: Int
+  skip: Int
+  start: DateTime
+  end: DateTime
+}
+
+type RegisterOperations {
+  registerOperations: [RegisterOperation!]!
+  pagination: Pagination!
+}
+
+type RegisterOperation {
+  id: ID!
+  totalSales: Float!
+  realTotalSales: Float!
+  operationType: RegisterOperationType!
+  paymentMethods: [RegisterPaymentMethod!]
+  registers: [Register!]
+  createdAt: DateTime
+  createdBy: User!
+}
+
+type RegisterPaymentMethod {
+  method: String!
+  total: Float!
+  realTotal: Float!
+}
+
+type Register {
+  register: ID!
+  name: String!
+  balance: Float!
+  realBalance: Float!
+  financialStatements: [FinancialStatement!]
+}
+
+input CreateRegisterOperationInput {
+  totalSales: Float!
+  realTotalSales: Float!
+  operationType: RegisterOperationType!
+  paymentMethods: [RegisterPaymentMethodInput!]
+  registers: [RegisterInput!]
+}
+
+input RegisterPaymentMethodInput {
+  method: String!
+  total: Float!
+  realTotal: Float!
+}
+
+input RegisterInput {
+  register: ID!
+  name: String!
+  balance: Float!
+  realBalance: Float!
+  financialStatements: [String!]
+}
+
+enum RegisterOperationType {
+  open
+  close
+}

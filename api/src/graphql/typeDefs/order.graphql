@@ -1,0 +1,311 @@
+extend type Query {
+  order(id: ID!): Order!
+  orderPreview(id: ID!): Order!
+  orders(input: OrdersInput): Orders!
+  searchOrders(text: String): [Order!]!
+  getDeliveryDetails(input: DeliveryDetailsInput): DeliveryDetails!
+  getSuggestions(input: SuggestionsInput): [Product!]!
+}
+
+extend type Mutation {
+  createOrderShopfront(input: CreateOrderShopfrontInput!): Order!
+  createOrder(nationalId: String, input: CreateOrderInput!): Order!
+  updateOrder(id: ID!, input: UpdateOrderInput!): Order!
+  addItems(id: ID!, input: AddItemsInput!): Order!
+  addItemOrder(id: ID!, input: AddItemOrderInput!): Order!
+  deleteItemOrder(id: ID!, input: DeleteItemOrderInput!): Order!
+  addPayment(id: ID!, input: PaymentInput!): Order!
+  closeOrder(id: ID!): Order!
+  cancelOrder(input: CancelOrderInput): Order!
+  confirmOrder(input: ConfirmOrderInput): Order!
+  updateOrderInvoice(id: ID!, status: SalesInvoiceStatus!, message: String): Order!
+  generateInvoice(id: ID!): Order!
+  sendInvoiceEmail(input: InvoiceEmailInput!): Order!
+  downloadInvoices(input: DownloadInvoicesInput!): String
+}
+
+extend type Subscription {
+  order(input: OrderInput): Order!
+}
+
+input SuggestionsInput {
+  id: ID!
+}
+
+input DownloadInvoicesInput {
+  filter: OrdersFilterInput
+}
+
+input DeliveryDetailsInput {
+  address: AddressInput!
+}
+
+input OrderInput {
+  start: DateTime
+  end: DateTime
+}
+
+input CreateOrderShopfrontInput {
+  merchant: ID!
+  delivery: DeliveryInput!
+  customer: OrderCustomerInput!
+  items: [CartItemInput!]!
+  payments: [PaymentShopfrontInput!]!
+}
+
+input CreateOrderInput {
+  items: [ItemInput!]!
+  payments: [PaymentInput!]
+  title: String
+}
+
+input ItemInput {
+  product: ID!
+  gtin: String!
+  name: String!
+  description: String
+  price: Float!
+  measurement: Measurement!
+  ncm: String
+  quantity: Float!
+  note: String
+  productionLine: ID
+}
+
+input UpdateItemInput {
+  product: ID!
+  gtin: String!
+  name: String!
+  description: String
+  price: Float!
+  measurement: Measurement!
+  ncm: String
+  quantity: Float!
+  note: String
+  productionLine: ID
+}
+
+input AddItemsInput {
+  items: [UpdateItemInput!]
+}
+
+input UpdateOrderInput {
+  title: String
+  customer: ID
+  discount: Float
+  shouldGenerateInvoice: Boolean
+  items: [UpdateItemInput!]
+  shouldGenerateProductionRequest: Boolean = true
+  delivery: UpdateDeliveryInput
+  fees: [UpdateOrderFeeInput!]
+  payments: [UpdatePaymentInput!]
+  updatedAt: DateTime
+}
+
+input UpdateOrderFeeInput {
+  _id: ID!
+  fee: String!
+  name: String!
+  value: Float!
+}
+
+input UpdatePaymentInput {
+  method: PaymentMethod!
+  received: Float
+}
+
+input UpdateDeliveryInput {
+  fee: Float
+  address: UpdateAddressInput
+  method: DeliveryMethod!
+}
+
+input UpdateAddressInput {
+  _id: ID
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+}
+
+input PaymentInput {
+  method: String!
+  value: Float!
+  received: Float!
+  category: String
+  financialFund: String
+}
+
+input CancelOrderInput {
+  id: ID!
+}
+
+input ConfirmOrderInput {
+  id: ID!
+}
+
+input PaymentShopfrontInput {
+  method: PaymentMethod!
+  received: Float!
+}
+
+input DeliveryInput {
+  fee: Float
+  address: AddressInput
+  method: DeliveryMethod!
+  change: Float
+}
+
+input AddItemOrderInput {
+  product: ID!
+  gtin: String!
+  name: String!
+  description: String
+  price: Float!
+  measurement: Measurement!
+  ncm: String
+  quantity: Float!
+}
+
+type Delivery {
+  fee: Float!
+  address: DeliveryAddress
+  paymentType: PaymentMethod
+  method: DeliveryMethod
+}
+
+type DeliveryAddress implements Address {
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+  lat: Float
+  lng: Float
+}
+
+input OrderCustomerInput {
+  mobile: String!
+  name: String!
+  nationalId: String
+}
+
+input CartItemInput {
+  _id: ID!
+  image: String
+  name: String
+  note: String
+  description: String
+  price: Float!
+  quantity: Int!
+  subtotal: Float!
+}
+
+type Order implements Node {
+  _id: ID!
+  title: String
+  shortID: String
+  items: [Item!]!
+  company: Company!
+  createdBy: User!
+  customer: Customer
+  customerName: String
+  fees: [OrderFee!]
+  payments: [Payment!]
+  productionRequests: [ProductionRequest!]
+  status: OrderStatus!
+  delivery: Delivery
+  origin: Origin
+  ifood: IfoodOrder
+  invoice: Invoice
+  discount: Float
+  totalDiscount: Float
+  totalFees: Float
+  total: Float!
+  subtotal: Float
+  totalPaid: Float!
+  totalTaxes: Float!
+  requireConfirmation: Boolean
+  shouldGenerateInvoice: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type OrderFee {
+  _id: ID!
+  fee: String!
+  name: String!
+  value: Float!
+}
+
+type Item {
+  product: ID
+  gtin: String
+  name: String!
+  description: String
+  price: Float!
+  subtotal: Float
+  measurement: Measurement!
+  ncm: String
+  quantity: Float!
+  note: String
+  modifiers: [ItemModifier!]
+  productionLine: ID
+}
+
+type ItemModifier {
+  name: String!
+  price: Float!
+  quantity: Float!
+  totalPrice: Float!
+}
+
+input OrdersInput {
+  filter: OrdersFilterInput
+}
+
+input OrdersFilterInput {
+  first: Int
+  skip: Int
+  start: DateTime
+  end: DateTime
+  status: [OrderStatus!]
+  payments: [PaymentMethod!]
+  origin: [Origin!]
+}
+
+type Orders {
+  orders: [Order!]!
+  pagination: Pagination!
+}
+
+type DeliveryDetails {
+  fee: Float!
+  distance: Float!
+}
+
+enum OrderStatus {
+  open
+  confirmed
+  partially_paid
+  paid
+  closed
+  canceled
+}
+
+enum DeliveryMethod {
+  indoor
+  takeout
+  delivery
+}
+
+enum Origin {
+  mee
+  shopfront
+  ifood
+}

@@ -1,0 +1,13 @@
+# Dependencies
+pyopenssl
+certifi
+uWSGI
+Flask
+schedule
+pandas
+pymongo
+pymongo[tls]
+requests
+dnspython
+matplotlib
+apyori

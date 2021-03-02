@@ -1,0 +1,86 @@
+version: "3.7"
+services:
+  # Issue windows vm_max_count
+  # https://stackoverflow.com/questions/42111566/elasticsearch-in-windows-docker-image-vm-max-map-count
+  elasticsearch:
+    image: elasticsearch:6.4.3
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+  mongo1:
+    image: mongo:4.2.5
+    container_name: mongo1
+    restart: always
+    ports:
+      - 27017:27017
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
+    volumes:
+      - mongo:/var/lib/mongo
+  mongo2:
+    image: mongo:4.2.5
+    container_name: mongo2
+    restart: always
+    ports:
+      - 27018:27017
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
+    volumes:
+      - mongo:/var/lib/mongo
+  mongo3:
+    image: mongo:4.2.5
+    container_name: mongo3
+    restart: always
+    ports:
+      - 27019:27017
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
+    volumes:
+      - mongo:/var/lib/mongo
+  client:
+    image: client
+    container_name: client
+    build: ./client
+    stdin_open: true
+    volumes:
+      - /usr/src/app/node_modules
+      - ./client:/usr/src/app
+    env_file:
+      - ./client/env.development
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+  api:
+    image: api
+    container_name: api
+    build: ./api
+    tty: false
+    volumes:
+      - /usr/src/app/node_modules
+      - ./api:/usr/src/app
+    env_file:
+      - ./api/development.env
+    ports:
+      - 4000:4000
+    depends_on:
+      - mongo1
+      - elasticsearch
+  nfe:
+    image: nfe
+    container_name: nfe
+    build: ./nfe
+    volumes:
+      - ./nfe:/usr/src/app
+    ports:
+      - 5000:80
+  analytics:
+    image: analytics
+    container_name: analytics
+    build: ./analytics
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_DEBUG=1
+      - "RUN=flask run --host=0.0.0.0 --port=80"
+    command: flask run --host=0.0.0.0 --port=80
+    ports:
+      - 6000:80
+volumes:
+  mongo:

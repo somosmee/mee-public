@@ -1,0 +1,20 @@
+{
+  "mobile": "37971734939",
+  "firstName": "Mylie",
+  "lastName": "Moss",
+  "email": "myliemoss@email.com",
+  "cpf": "28174484051",
+  "birthday": "2000-01-01",
+  "receiveOffers": true,
+  "addresses": [
+    {
+      "postalCode": "73368-782",
+      "street": "Quadra 7J Conjunto B",
+      "number": "100",
+      "complement": "Casa A",
+      "district": "Arapoanga (Planaltina)",
+      "city": "Brasília",
+      "state": "DF"
+    }
+  ]
+}

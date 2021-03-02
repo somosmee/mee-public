@@ -1,0 +1,544 @@
+extend type Query {
+  supplier(id: ID!): Supplier!
+  suppliers(input: SuppliersInput): SuppliersPayload!
+  searchSuppliers(text: String): [Supplier!]!
+
+  purchase(id: ID, accessKey: String): Purchase!
+  purchases(input: PurchasesInput): PurchasePayload!
+
+  reports(input: ReportInput): Reports!
+}
+
+extend type Mutation {
+  createSupplier(input: CreateSupplierInput!): Supplier!
+  updateSupplier(id: ID!, input: UpdateSupplierInput!): Supplier!
+  deleteSupplier(id: ID!): Supplier!
+
+  addPurchase(accessKey: String!): Purchase!
+  addManualPurchase(input: PurchaseInput!): Purchase!
+  createPurchaseItem(id: ID!, input: CreatePurchaseItemInput!): Purchase!
+  updatePurchaseItem(id: ID!, item: ID!, input: UpdatePurchaseItemInput!): Purchase!
+  importPurchaseItems(id: ID!): Purchase!
+
+  updateAllCompletionIndexes: String
+
+  createSupportCheckoutSession(input: CreateSupportCheckoutSessionInput): StripeSession!
+  createSetupSession(input: CreateSetupSessionInput): StripeSession!
+  retryBillPayment(userBillId: ID!): Company!
+
+  sendReports: String
+  reclassifyUsers: String
+}
+
+extend type Subscription {
+  product: ProductSubscriptionPayload!
+
+  orderClosed(companyId: ID!): SalesInvoice
+  productionRequest: ProductionRequest!
+  magicSignin(loginUUID: String!): AuthPayload!
+}
+
+type Reports {
+  hasSales: Boolean!
+  startDate: DateTime!
+  endDate: DateTime!
+  previousStartDate: DateTime!
+  previousEndDate: DateTime!
+  interval: Int!
+  salesReport: Report!
+  cashFlowReport: Report!
+  retentionReport: RetentionReport!
+  salesStatisticsReport: SalesStatisticsReport!
+}
+
+type ProductionRequest {
+  id: ID!
+  productionLine: ProductionLine!
+  order: Order!
+  createdBy: User
+  items: [ProductionRequestItem!]!
+  createdAt: DateTime!
+}
+
+type ProductionRequestItem {
+  product: ID!
+  quantity: Float!
+  name: String!
+  note: String
+}
+
+type SuppliersPayload {
+  suppliers: [Supplier!]!
+  pagination: Pagination!
+}
+
+type PurchasePayload {
+  purchases: [Purchase!]!
+  pagination: Pagination!
+}
+
+type ProductSubscriptionPayload {
+  mutation: MutationType!
+  node: Product
+}
+
+type SendPinPayload {
+  sent: Boolean!
+}
+
+input ReportInput {
+  startDate: DateTime!
+  endDate: DateTime!
+  groupBy: String
+}
+
+input SuppliersInput {
+  pagination: PaginationInput
+}
+
+input PurchasesInput {
+  text: String
+  pagination: PaginationInput
+}
+
+input PaginationInput {
+  first: Int
+  skip: Int
+}
+
+input InvoiceEmailInput {
+  orderId: ID!
+  email: String!
+}
+
+input DeleteItemOrderInput {
+  gtin: String!
+}
+
+input CreateSupplierInput {
+  nationalId: String!
+  displayName: String!
+  name: String!
+  tradeName: String
+  url: String
+  phone: String
+  description: String
+}
+
+input UpdateSupplierInput {
+  displayName: String
+  name: String
+  url: String
+  phone: String
+  description: String
+}
+
+input PurchaseInput {
+  supplier: ID!
+  items: [PurchaseItemInput!]!
+  total: Float
+  purchasedAt: DateTime
+  financialFund: String
+  paymentMethod: String
+}
+
+input CreateSetupSessionInput {
+  screen: String
+}
+
+input CreateSupportCheckoutSessionInput {
+  planType: String
+}
+
+input PurchaseItemInput {
+  product: String!
+  gtin: String!
+  name: String!
+  quantity: Float!
+  unitPrice: Float!
+  totalPrice: Float!
+  measurement: Measurement!
+  ncm: String
+}
+
+input CreatePurchaseItemInput {
+  gtin: String!
+  name: String!
+  description: String
+  price: Float!
+  measurement: Measurement!
+  ncm: String!
+}
+
+input UpdatePurchaseItemInput {
+  gtin: String
+  quantity: Float
+}
+
+input AllPackagesInput {
+  shopIds: [String!]!
+}
+
+input AccountantInviteInput {
+  email: String!
+}
+
+type PermissionOrder {
+  create: Boolean!
+  edit: Boolean!
+  list: Boolean!
+  closeOrder: Boolean!
+  addPayment: Boolean!
+  addItem: Boolean!
+}
+
+type Permissions {
+  myStore: Boolean!
+  reports: Boolean!
+  billing: Boolean!
+  sales: Boolean!
+  products: Boolean!
+  customers: Boolean!
+  orders: PermissionOrder!
+  tags: Boolean!
+  purchases: Boolean!
+  suppliers: Boolean!
+  deliveries: Boolean!
+  accountant: Boolean
+}
+
+type SettingsDelivery {
+  fee: Float
+  distance: Float
+  condition: String
+}
+
+type PriceRule {
+  _id: ID!
+  name: String!
+  amount: Float!
+  operationType: OperationType!
+  channels: [Integration!]!
+  active: Boolean!
+}
+
+type UserBill {
+  _id: ID
+  items: [BillItem]
+  status: UserBillStatus
+  total: Float
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type BillItem {
+  order: Order
+  totalOrder: Float
+  fee: Float
+  totalFee: Float
+}
+
+type Accountant {
+  invites: [AccountantInvite]
+}
+
+type AccountantInvite {
+  email: String!
+  uuid: String!
+  accountant: ID
+}
+
+type Phone {
+  areaCode: String
+  number: String
+}
+
+type Invoice {
+  status: InvoiceStatus!
+  accessKey: String
+  QRCode: String
+  message: String
+}
+
+type SalesInvoice {
+  orderId: ID!
+  company: ID!
+  dataXML: String!
+}
+
+type Supplier {
+  _id: ID!
+  nationalId: String!
+  displayName: String!
+  name: String!
+  tradeName: String
+  url: String
+  phone: String
+  description: String
+  company: Company!
+  createdBy: User!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Purchase {
+  _id: ID!
+  accessKey: String
+  status: PurchaseStatus!
+  serie: Int
+  number: Int
+  items: [PurchaseItem!]!
+  total: Float
+  supplier: Supplier
+  invoice: Invoice
+  company: Company!
+  createdBy: User!
+  purchasedAt: DateTime
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Payment {
+  method: PaymentMethod!
+  value: Float!
+  received: Float
+  prepaid: Boolean
+  pending: Boolean
+  createdAt: DateTime
+}
+
+type Pagination {
+  page: Int!
+  offset: Int!
+  totalPages: Int!
+  totalItems: Int!
+}
+
+type PurchaseItem {
+  _id: ID
+  product: ID
+  gtin: String!
+  name: String!
+  quantity: Float!
+  measurement: String!
+  ncm: String
+  unitPrice: Float!
+  totalPrice: Float!
+  status: PurchaseItemStatus
+}
+
+type IfoodOrder {
+  reference: String
+  status: String
+  customer: IfoodCustomer
+  payments: [IfoodPayment]
+  benefits: [IfoodBenefit]
+}
+
+type IfoodBenefit {
+  value: Float
+  sponsorshipValues: IfoodSponsorValues
+  target: String
+}
+
+type IfoodSponsorValues {
+  IFOOD: Float
+  MERCHANT: Float
+}
+
+type IfoodPayment {
+  name: String
+  code: String
+  value: Float
+  prepaid: Boolean
+  changeFor: Float
+}
+
+type IfoodCustomer {
+  name: String
+  phone: String
+  taxPayerIdentificationNumber: String
+}
+
+# SUBSCRIPTION
+input PhoneInput {
+  areaCode: String!
+  number: String!
+}
+
+input AddressInput {
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+  lat: Float
+  lng: Float
+}
+
+input CreditCardInput {
+  lastFourDigits: String!
+  brand: String!
+  token: String!
+  name: String!
+  expireMonth: String!
+  expireYear: String!
+}
+
+type StripeSession {
+  session: String!
+}
+
+type ReportData {
+  label: String!
+  values: [Float]!
+}
+
+type Report {
+  title: String!
+  subtitle: String!
+  header: [String]!
+  data: [ReportData!]
+}
+
+type RetentionReport {
+  previousCount: Int!
+  currentCount: Int!
+  previous: TimeFrame!
+  current: TimeFrame!
+  retentionRate: Float!
+  churnRate: Float!
+  percentageDiff: Float!
+  loyalCustomers: [Customer!]
+  churnedCustomers: [Customer!]
+}
+
+type SalesStatisticsReport {
+  total: Int!
+  totalRevenue: Float!
+  subtotalRevenue: Float!
+  averageTicket: Float!
+  totalPercentageDiff: Float!
+  totalRevenuePercentageDiff: Float!
+  subtotalRevenuePercentageDiff: Float!
+  averageTicketPercentageDiff: Float!
+  topSellingProducts: [ProductSalesStats!]
+  totalFees: [FeeStats!]
+  paymentMethods: PaymentMethodsStats!
+}
+
+type PaymentMethodsStats {
+  cash: Float!
+  credit: Float!
+  debt: Float!
+  voucher: Float!
+  pix: Float!
+}
+
+type ProductSalesStats {
+  product: String!
+  name: String!
+  total: Int!
+  revenue: Float!
+  subtotalRevenuePercentage: Float!
+}
+
+type FeeStats {
+  name: String!
+  total: Float!
+}
+
+type TimeFrame {
+  beginAt: DateTime!
+  endAt: DateTime!
+}
+
+type Charge {
+  date: DateTime!
+  amount: Float!
+  status: ChargeStatus!
+}
+
+enum InvoiceStatus {
+  pending
+  success
+  error
+}
+
+enum ChargeStatus {
+  failed
+  pending
+  succeeded
+}
+
+enum MutationType {
+  created
+  updated
+  deleted
+}
+
+enum Measurement {
+  unit
+  kilogram
+}
+
+enum PaymentMethod {
+  cash
+  credit
+  debt
+  voucher
+  pix
+}
+
+enum PurchaseStatus {
+  fetching
+  success
+  error
+}
+
+enum PurchaseItemStatus {
+  new
+  draft
+  added_to_inventory
+}
+
+enum InvoicePurpose {
+  normal
+  complementary
+  adjustment
+  devolution
+}
+
+enum InvoiceOperation {
+  incoming
+  outgoing
+}
+
+enum PlanType {
+  monthly
+  yearly
+}
+
+enum SalesInvoiceStatus {
+  success
+  error
+}
+
+enum UserBillStatus {
+  pending
+  success
+  failed
+}
+
+enum OperationType {
+  percentage
+  absolute
+}
+
+enum Integration {
+  ifood
+}

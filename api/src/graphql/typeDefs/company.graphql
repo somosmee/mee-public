@@ -1,0 +1,230 @@
+extend type Query {
+  myCompany: Company!
+  myCompanies: [Company!]
+}
+
+extend type Mutation {
+  createMember(input: CreateMemberInput!): Company!
+  createCompany(input: CreateCompanyInput!): Company!
+  deleteMember(input: DeleteMemberInput!): Company!
+  acceptInvite(input: AcceptInviteInput!): AuthPayload!
+  signinCompany(input: SigninCompanyInput!): AuthPayload!
+  updateMyCompany(input: UpdateMyCompanyInput!): Company!
+  createPriceRule(input: CreatePriceRuleInput!): Company!
+  updatePriceRule(input: UpdatePriceRuleInput!): Company!
+  deletePriceRule(input: DeletePriceRuleInput!): Company!
+}
+
+type Company implements Node {
+  _id: ID!
+  createdBy: User!
+  number: Int
+  name: String
+  members: [TeamMember!]
+  paymentMethods: [PaymentMethodType!]
+  purchasePaymentMethods: [PurchasePaymentMethod!]
+  expenseCategories: [FinancialStatementCategory!]
+  incomeCategories: [FinancialStatementCategory!]
+  nationalId: String
+  stateId: String
+  description: String
+  banner: String
+  picture: String
+  certificate: Certificate
+  stripeCustomerId: String
+  card: CreditCard
+  subscription: CompanySubscription
+  address: CompanyAddress
+  ifood: Ifood
+  loggi: Loggi
+  tax: CompanyTax
+  settings: Settings!
+  productionLines: [ProductionLine!]
+  financialFunds: [FinancialFund!]
+}
+
+type FinancialStatementCategory {
+  id: ID!
+  name: String!
+  color: String!
+}
+
+type PaymentMethodType {
+  id: ID
+  name: String
+  fee: Float
+  operationType: OperationType
+  method: PaymentMethod
+  balanceInterval: Int
+  financialFund: FinancialFund
+}
+
+type PurchasePaymentMethod {
+  id: ID
+  name: String
+  fee: Float
+  closingDay: Int
+  paymentDay: Int
+  method: PaymentMethod
+  financialFund: FinancialFund
+  operationType: OperationType
+}
+
+type ProductionLine {
+  _id: ID
+  name: String
+  ip: String
+}
+
+type Settings {
+  fees: [SettingsFee!]
+  priceRules: [PriceRule!]!
+  delivery: [SettingsDelivery!]
+  forceOpenRegister: Boolean
+}
+
+type SettingsFee {
+  _id: ID!
+  name: String!
+  fee: Float!
+  operationType: OperationType!
+  enabled: Boolean!
+}
+
+type CompanyTax {
+  regime: String
+  icmsOrigin: String
+  icmsCSOSN: String
+  pisCofinsTaxGroup: String
+  icmsRegime: String
+  icmsTaxGroup: String
+  incidenceRegime: String
+}
+
+type Ifood {
+  open: Boolean!
+  merchant: String
+  username: String
+  password: String
+}
+
+type CompanyAddress implements Address {
+  street: String!
+  number: String!
+  complement: String
+  district: String!
+  city: String!
+  state: String!
+  postalCode: String!
+  lat: Float
+  lng: Float
+}
+
+type CreditCard {
+  id: ID
+  brand: String
+  expMonth: String
+  expYear: String
+  funding: String
+  last4: String
+}
+
+type CompanySubscription {
+  status: String
+  paymentStatus: String
+  plan: SubscriptionPlan
+}
+
+type SubscriptionPlan {
+  id: String
+}
+
+type TeamMember implements Node {
+  _id: ID!
+  user: User!
+  role: Role!
+  status: String!
+}
+
+type Certificate {
+  name: String
+}
+
+input UpdateMyCompanyInput {
+  banner: Upload
+  picture: Upload
+  certificate: CertificateInput
+  name: String
+  nationalId: String
+  stateId: String
+  description: String
+  address: AddressInput
+  delivery: [MeDeliveryInput!]
+  tax: UserTaxesInput
+  fees: [FeeInput!]
+  forceOpenRegister: Boolean
+  paymentMethods: [PaymentMethodInput!]
+  purchasePaymentMethods: [PurchasePaymentMethodInput!]
+  expenseCategories: [FinancialStatementCategoryInput!]
+  incomeCategories: [FinancialStatementCategoryInput!]
+}
+
+input FinancialStatementCategoryInput {
+  id: String
+  name: String!
+  color: String!
+}
+
+input PaymentMethodInput {
+  id: String
+  fee: Float!
+  name: String!
+  operationType: String!
+  method: PaymentMethod!
+  balanceInterval: Int
+  financialFund: String
+}
+
+input PurchasePaymentMethodInput {
+  id: String
+  fee: Float!
+  name: String!
+  operationType: String!
+  method: PaymentMethod!
+  closingDay: Int
+  paymentDay: Int
+  financialFund: String
+}
+
+input FeeInput {
+  _id: ID
+  name: String!
+  fee: Float!
+  operationType: OperationType!
+  enabled: Boolean!
+}
+
+input CreateMemberInput {
+  email: String!
+  role: Role!
+}
+
+input DeleteMemberInput {
+  member: String!
+}
+
+input AcceptInviteInput {
+  user: String!
+  company: String!
+  inviteToken: String!
+}
+
+input SigninCompanyInput {
+  company: String!
+}
+
+input CreateCompanyInput {
+  name: String!
+  nationalId: String
+  mobile: String
+}

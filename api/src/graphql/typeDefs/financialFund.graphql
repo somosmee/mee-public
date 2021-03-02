@@ -1,0 +1,50 @@
+extend type Query {
+  financialFunds(input: FinancialFundsInput): [FinancialFund!]!
+}
+
+extend type Mutation {
+  createFinancialFund(input: CreateFinancialFundInput!): FinancialFund!
+  deleteFinancialFund(input: DeleteFinancialFundInput!): FinancialFund!
+  updateFinancialFund(input: UpdateFinancialFundInput!): FinancialFund!
+  adjustFinancialFund(input: AdjustFinancialFundInput!): FinancialFund!
+}
+
+input FinancialFundsInput {
+  category: FinancialFundCategory
+}
+
+input CreateFinancialFundInput {
+  name: String!
+  category: FinancialFundCategory!
+  balance: Float
+  shouldCreateFinancialStatement: Boolean = true
+}
+
+input UpdateFinancialFundInput {
+  id: String!
+  name: String
+  category: FinancialFundCategory
+}
+
+input AdjustFinancialFundInput {
+  id: String!
+  balance: Float!
+  shouldCreateFinancialStatement: Boolean = true
+}
+
+input DeleteFinancialFundInput {
+  id: String!
+}
+
+type FinancialFund {
+  id: ID!
+  name: String!
+  category: FinancialFundCategory!
+  balance: Float!
+  hasOpenedRegister: Boolean
+}
+
+enum FinancialFundCategory {
+  register
+  bank_account
+}

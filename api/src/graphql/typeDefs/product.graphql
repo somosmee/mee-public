@@ -1,0 +1,137 @@
+extend type Query {
+  product(input: ProductInput!): Product!
+  productGTIN(input: ProductInput!): ProductUniversal!
+  products(input: ProductsInput): Products!
+  searchProducts(text: String): [Product!]!
+}
+
+extend type Mutation {
+  createProduct(input: CreateProductInput!): Product!
+  updateProduct(input: UpdateProductInput!): Product!
+  deleteProduct(input: DeleteProductInput!): Product!
+  importProducts(input: ImportProductsInput!): String
+}
+
+input ImportProductsInput {
+  products: [ImportProduct!]!
+}
+
+input ImportProduct {
+  gtin: String
+  nome: String!
+  descricao: String
+  preco: Float!
+  unidade: String!
+  quantidade: Float
+}
+
+input ProductInput {
+  product: ID
+  gtin: String
+}
+
+input ProductsInput {
+  pagination: PaginationInput
+}
+
+input CreateProductInput {
+  gtin: String
+  name: String!
+  description: String
+  image: Upload
+  price: Float!
+  measurement: Measurement!
+  ncm: String
+  internal: Boolean
+  modifiers: [ProductModifierInput!]
+  bundle: [ProductBundleInput!]
+  productionLine: ID
+}
+
+input DeleteProductInput {
+  id: ID!
+}
+
+input UpdateProductInput {
+  product: ID!
+  image: Upload
+  name: String
+  description: String
+  price: Float
+  ncm: String
+  measurement: Measurement
+  modifiers: [ProductModifierInput!]
+  bundle: [ProductBundleInput!]
+  productionLine: ID
+}
+
+input ProductTaxesInput {
+  icmsOrigin: String
+  icmsTaxPercentage: Float
+}
+
+input ProductModifierInput {
+  name: String!
+  price: Float!
+}
+
+input ProductBundleInput {
+  product: ID!
+  quantity: Float!
+}
+
+type Product {
+  _id: ID!
+  gtin: String!
+  name: String!
+  description: String
+  image: String
+  balance: Float!
+  price: Float!
+  measurement: Measurement!
+  ncm: String
+  confidence: Float
+  tax: ProductTax @deprecated(reason: "Taxes fields were move to users collection")
+  modifiers: [ProductModifier!]
+  bundle: [ProductBundle!]
+  internal: Boolean!
+  productionLine: ID
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProductUniversal {
+  _id: ID!
+  gtin: String!
+  name: String!
+  description: String
+  measurement: Measurement!
+  ncm: String
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProductTax {
+  icmsOrigin: String
+  icmsTaxPercentage: Float
+}
+
+type ProductModifier {
+  id: ID!
+  name: String!
+  price: Float!
+}
+
+type ProductBundle {
+  product: ID!
+  quantity: Float!
+  name: String!
+  gtin: String!
+}
+
+type Products {
+  products: [Product!]!
+  pagination: Pagination!
+}

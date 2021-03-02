@@ -1,0 +1,57 @@
+extend type Query {
+  financialStatements(input: FinancialStatementInput): FinancialStatements!
+}
+
+extend type Mutation {
+  createFinancialStatement(input: CreateFinancialStatementInput!): FinancialStatement!
+  deleteFinancialStatement(input: DeleteFinancialStatementInput!): FinancialStatement!
+
+  deleteFinancialStatementCategory(input: DeleteFinancialStatementCategoryInput!): Company!
+}
+
+input FinancialStatementInput {
+  pagination: PaginationInput
+}
+
+input CreateFinancialStatementInput {
+  value: Float!
+  paid: Boolean!
+  dueAt: DateTime!
+  description: String!
+  category: String!
+  operation: FinancialOperations!
+  financialFund: String
+}
+
+input DeleteFinancialStatementCategoryInput {
+  id: String!
+}
+
+input DeleteFinancialStatementInput {
+  id: String!
+}
+
+type FinancialStatement {
+  _id: ID!
+  order: String
+  purchase: String
+  value: Float!
+  paid: Boolean!
+  dueAt: DateTime!
+  description: String!
+  category: String!
+  operation: FinancialOperations!
+  financialFund: FinancialFund
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type FinancialStatements {
+  financialStatements: [FinancialStatement!]!
+  pagination: Pagination!
+}
+
+enum FinancialOperations {
+  expense
+  income
+}

@@ -1,0 +1,111 @@
+extend type Query {
+  me: User!
+}
+
+extend type Mutation {
+  updateMe(input: UpdateMeInput!): User!
+  signin(input: SigninInput!): AuthPayload!
+  sendPin(input: SendPinInput!): SendPinPayload!
+  signinGoogleEmployer(googleIdToken: String!, loginUUID: String, referral: String): AuthPayload!
+  signinGoogleEmployee(googleIdToken: String!): AuthPayload!
+}
+
+type AuthPayload {
+  loginUUID: String
+  token: String!
+  signup: Boolean
+  user: User!
+  company: Company
+}
+
+type User implements Node {
+  _id: ID!
+  email: String
+  name: String
+  role: String
+  referral: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  onboarding: OnBoarding
+}
+
+type OnBoarding {
+  finishedAddProduct: Boolean
+  finishedAddOrder: Boolean
+  finishedCloseOrder: Boolean
+}
+
+input SigninInput {
+  pin: String!
+  email: String!
+  loginUUID: String
+  referral: String
+}
+
+input SendPinInput {
+  email: String!
+}
+
+input UpdateMeInput {
+  name: String
+  onboarding: OnboadingInput
+}
+
+input CertificateInput {
+  file: Upload!
+  password: String!
+}
+
+input OnboadingInput {
+  finishedAddProduct: Boolean
+  finishedAddOrder: Boolean
+  finishedCloseOrder: Boolean
+}
+
+input MeDeliveryInput {
+  condition: String!
+  distance: Float!
+  fee: Float!
+}
+
+input UserTaxesInput {
+  regime: String
+  icmsCSOSN: String
+  icmsOrigin: String
+  icmsRegime: String
+  icmsTaxGroup: String
+  incidenceRegime: String
+  pisCofinsTaxGroup: String
+}
+
+input CreatePriceRuleInput {
+  rules: [PriceRuleInput!]!
+}
+
+input UpdatePriceRuleInput {
+  id: ID!
+  name: String
+  amount: Float
+  operationType: OperationType
+  channels: [Integration!]
+  active: Boolean
+}
+
+input DeletePriceRuleInput {
+  id: ID!
+}
+
+input PriceRuleInput {
+  name: String!
+  amount: Float!
+  operationType: OperationType!
+  channels: [Integration!]!
+  active: Boolean
+}
+
+enum Role {
+  businessAdmin
+  manager
+  attendant
+  accountant
+}

@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "video": false,
+  "experimentalFetchPolyfill": true,
+  "experimentalNetworkStubbing": true,
+  "env": {
+    "GOOGLE_USERNAME": "mee.test.tech@gmail.com",
+    "GOOGLE_PASSWORD": "Zakrab-0guppi-gansap",
+    "GOOGLE_LOGIN_BUTTON_URL": "http://localhost:3000/"
+  }
+}

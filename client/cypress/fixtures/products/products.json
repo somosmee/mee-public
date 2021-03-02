@@ -1,0 +1,16 @@
+[
+  {
+    "internal": true,
+    "name": "farinha de mandioca 1kg",
+    "description": "tipo 1",
+    "price": 8,
+    "measurement": "unit"
+  },
+  {
+    "gtin": "7894900011753",
+    "name": "refrigerante coca cola 1,5l pet",
+    "description": "garaffa descartável",
+    "price": 5.69,
+    "measurement": "unit"
+  }
+]

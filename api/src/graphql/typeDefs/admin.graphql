@@ -1,0 +1,26 @@
+extend type Query {
+  kpi(input: KPIInput!): KPI!
+}
+
+extend type Mutation {
+  generateToken(email: String!): String
+  resyncStripeData(email: String!): String
+  reprocessIfoodMarketAnalysis(email: String!, startWith: IfoodAnalysisStatus): String
+  simulateConcludeIfoodOrders(email: String!): String
+  syncronyzeIndexes(entities: [String!]!): String
+}
+
+input KPIInput {
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+type KPI {
+  newActiveUsers: Int!
+  churn: Int!
+}
+
+enum IfoodAnalysisStatus {
+  get_data_started
+  entity_linking_started
+}

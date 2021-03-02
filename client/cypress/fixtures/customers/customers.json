@@ -1,0 +1,82 @@
+[
+  {
+    "mobile": "37971734939",
+    "firstName": "Mylie",
+    "lastName": "Moss",
+    "email": "myliemoss@email.com",
+    "cpf": "28174484051",
+    "birthday": "2000-01-01",
+    "receiveOffers": true,
+    "addresses": [
+      {
+        "postalCode": "73368-782",
+        "street": "Quadra 7J Conjunto B",
+        "number": "100",
+        "complement": "Casa A",
+        "district": "Arapoanga (Planaltina)",
+        "city": "Brasília",
+        "state": "DF"
+      }
+    ]
+  },
+  {
+    "mobile": "75952714033",
+    "firstName": "Kade",
+    "lastName": "Barker",
+    "email": "kadebarker@email.com",
+    "cpf": "80377888060",
+    "birthday": "1996-04-19"
+  },
+  {
+    "mobile": "93932323495",
+    "firstName": "Everly",
+    "lastName": "Atkins"
+  },
+  {
+    "mobile": "53970241823",
+    "firstName": "Ema",
+    "lastName": "Pham",
+    "cpf": "44143232073"
+  },
+  {
+    "mobile": "24995862336",
+    "firstName": "Brielle",
+    "lastName": "Nairn",
+    "cpf": "79999902057"
+  },
+  {
+    "mobile": "83973220786",
+    "firstName": "Pharrell",
+    "lastName": "Griffith",
+    "cpf": "93283348022"
+  },
+  {
+    "mobile": "63919002234",
+    "firstName": "Clinton",
+    "lastName": "Schwartz",
+    "cpf": "74832333038"
+  },
+  {
+    "mobile": "24972325325",
+    "firstName": "Anas",
+    "lastName": "Wilcox",
+    "cpf": "62047530024"
+  },
+  {
+    "mobile": "64973650639",
+    "firstName": "Kaitlyn",
+    "lastName": "Hill",
+    "cpf": "95729007060"
+  },
+
+  {
+    "mobile": "22974004702",
+    "firstName": "Harvey-Lee",
+    "lastName": "Diaz"
+  },
+  {
+    "mobile": "55950241043",
+    "firstName": "Kelise",
+    "lastName": "Hensley"
+  }
+]

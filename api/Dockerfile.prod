@@ -1,0 +1,9 @@
+ARG NODE_IMAGE_TAG=14.15.2-alpine
+
+FROM node:$NODE_IMAGE_TAG
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . .
+EXPOSE 80
+CMD ["yarn", "start"]

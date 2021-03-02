@@ -1,0 +1,118 @@
+extend type Query {
+  allShopsLoggi: AllShopsLoggiPayload!
+  allPackagesLoggi(input: AllPackagesInput!): AllPackagesLoggiPayload!
+}
+
+extend type Mutation {
+  createOrderLoggi(input: CreateOrderLoggiInput!): [OrderLoggi!]
+  updateCredentialsLoggi(input: UpdateCredentialsLoggiInput!): Company!
+}
+
+## INPUT
+
+input UpdateCredentialsLoggiInput {
+  username: String!
+  password: String!
+}
+
+input CreateOrderLoggiInput {
+  shopId: Int!
+  pickups: [PickupLoggiInput!]!
+  packages: [PackageLoggiInput!]!
+}
+
+## INPUT
+
+input PackageLoggiInput {
+  pickupIndex: Int!
+  recipient: RecipientLoggiInput!
+  address: AddressLoggiInput!
+  dimensions: DimensionsLoggiInput!
+  charge: ChargeLoggiInput!
+  instructions: String
+}
+
+input PickupLoggiInput {
+  address: AddressLoggiInput
+  instructions: String
+}
+
+input ChargeLoggiInput {
+  value: String!
+  method: Int!
+  change: String!
+}
+
+input DimensionsLoggiInput {
+  width: Float!
+  height: Float!
+  weight: Float!
+  length: Float!
+}
+
+input RecipientLoggiInput {
+  name: String!
+  phone: String!
+}
+
+input AddressLoggiInput {
+  lat: Float!
+  lng: Float!
+  address: String!
+  complement: String
+}
+
+## TYPES
+
+type Loggi {
+  username: String
+  password: String
+}
+
+type AllShopsLoggiPayload {
+  edges: [ShopNode]
+}
+
+type AllPackagesLoggiPayload {
+  edges: [PackageNode]
+}
+
+type ShopNode {
+  node: Shop
+}
+
+type Shop {
+  pk: String
+  name: String
+  externalId: String
+  pickupInstructions: String
+  address: AddressLoggiShop
+  chargeOptions: ChargeOptionLoggi
+}
+
+type AddressLoggiShop {
+  pos: String
+  addressSt: String
+  addressData: String
+}
+
+type ChargeOptionLoggi {
+  label: String
+}
+
+type OrderLoggi {
+  pk: ID!
+}
+
+type PackageNode {
+  node: PackageLoggi
+}
+
+type PackageLoggi {
+  pk: ID!
+  status: String
+  orderId: Int
+  orderStatus: String
+  isRemovable: Boolean
+  trackingKey: String
+}
